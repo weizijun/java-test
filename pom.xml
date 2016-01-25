@@ -21,5 +21,30 @@
 			<artifactId>jodis</artifactId>
 			<version>0.2.2</version>
 		</dependency>
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.2.8</version>
+		</dependency>	
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>1.2.1</version>
+		</dependency>		
+		<dependency>
+	      <groupId>org.zeromq</groupId>
+	      <artifactId>jeromq</artifactId>
+	      <version>0.3.4</version>
+	    </dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.data</groupId>
+		    <artifactId>spring-data-redis</artifactId>
+		    <version>1.3.2.RELEASE</version>
+		</dependency>  			    		
 	</dependencies>
 </project>
