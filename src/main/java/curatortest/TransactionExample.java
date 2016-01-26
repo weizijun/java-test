@@ -1,4 +1,4 @@
-package zktest;
+package curatortest;
 
 import java.util.Collection;
 

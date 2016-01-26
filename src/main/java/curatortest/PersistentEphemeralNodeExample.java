@@ -1,4 +1,4 @@
-package zktest;
+package curatortest;
 
 import java.util.concurrent.TimeUnit;
 import org.apache.curator.framework.CuratorFramework;

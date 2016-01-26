@@ -1,4 +1,4 @@
-package zktest;
+package curatortest;
 
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
