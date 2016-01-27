@@ -1,6 +1,8 @@
 package zktest;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.concurrent.CountDownLatch;
 
 import org.apache.zookeeper.CreateMode;
@@ -17,9 +19,10 @@ import org.apache.zookeeper.ZooDefs.Ids;
  */
 public class Client implements Watcher {
 	private static CountDownLatch connectedSemaphore = new CountDownLatch(1);
+	private static String connectString = "10.180.148.7:2181,10.180.148.9:2181,10.180.148.15:2181";
 	
 	public static void main(String[] args) throws IOException, InterruptedException, KeeperException {
-		ZooKeeper zooKeeper = new ZooKeeper("127.0.0.1:2181", 5000,
+		ZooKeeper zooKeeper = new ZooKeeper(connectString, 5000,
 				new Client());
 		
 		System.out.println(zooKeeper.getState());
@@ -33,6 +36,9 @@ public class Client implements Watcher {
 		
 		String path2 = zooKeeper.create("/zktest", "hello zk".getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
 		System.out.println("create znode:" + path2);
+		
+		System.out.println("Press enter/return to quit\n");
+		new BufferedReader(new InputStreamReader(System.in)).readLine();
 	}
 
 	@Override

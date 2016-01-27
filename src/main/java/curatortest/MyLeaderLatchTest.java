@@ -16,14 +16,22 @@ public class MyLeaderLatchTest {
 		client.start();
 		example.start();
 		
+		boolean isStop = false;
 		while (true) {
 			if (example.hasLeadership()) {
 				System.out.println("current leader is mine");
+				example.close();
+				isStop = true;
+				example = new LeaderLatch(client, PATH, "Client " + args[0]);
 			} else {
 				System.out.println("current leader is:" + example.getLeader().getId());
 			}
 			
 			Thread.sleep(10 * 1000);
+			if (isStop) {
+				example.start();
+				isStop = false;
+			}
 		}
 	}
 

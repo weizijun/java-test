@@ -6,11 +6,15 @@ import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.framework.api.transaction.CuratorTransactionResult;
 import org.apache.curator.retry.ExponentialBackoffRetry;
+import org.apache.curator.test.TestingServer;
 
 public class TransactionExample {
 
-    public static void main(String[] args) throws Exception {
-		CuratorFramework client = createSimple("10.166.224.26:2181");
+    private static TestingServer server;
+
+	public static void main(String[] args) throws Exception {
+    	server = new TestingServer();
+		CuratorFramework client = createSimple(server.getConnectString());
 		client.start();
 
 		transaction(client);
@@ -25,9 +29,9 @@ public class TransactionExample {
 
     public static Collection<CuratorTransactionResult> transaction(CuratorFramework client) throws Exception {
         // this example shows how to use ZooKeeper's new transactions
-        Collection<CuratorTransactionResult> results = client.inTransaction().create().forPath("/a/path", "some data".getBytes())
-        		.and().create().forPath("/another/path", "a data".getBytes())
-                .and().setData().forPath("/another/path", "other data".getBytes())
+        Collection<CuratorTransactionResult> results = client.inTransaction().create().forPath("/path", "some data".getBytes())
+        		.and().create().forPath("/another", "a data".getBytes())
+                .and().setData().forPath("/another", "other data".getBytes())
                 //.and().delete().forPath("/yet/another/path")
                 .and().commit(); // IMPORTANT!
 
