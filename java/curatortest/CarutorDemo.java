@@ -17,6 +17,7 @@ public class CarutorDemo {
 
 	private static PathChildrenCache childrenCache;
 	private static NodeCache nodeCache;
+	private static String PATH = "/testzk/zk2";
 
 	public static void main(String[] args) throws Exception {
 		// CuratorFramework client = CuratorFrameworkFactory.builder()
@@ -26,7 +27,7 @@ public class CarutorDemo {
 		// .retryPolicy(new ExponentialBackoffRetry(1000, 3))
 		// .build();
 
-		CuratorFramework client = createSimple("10.166.224.26:2181");
+		CuratorFramework client = createSimple("10.180.148.7:2181,10.180.148.9:2181,10.180.148.15:2181");
 		client.start();
 
 		/**
@@ -34,7 +35,7 @@ public class CarutorDemo {
 		 */
 		ExecutorService pool = Executors.newFixedThreadPool(2);
 
-		nodeCache = new NodeCache(client, "/testzk/zk", false);
+		nodeCache = new NodeCache(client, PATH, false);
 		nodeCache.start(true);
 		nodeCache.getListenable().addListener(new NodeCacheListener() {
 			@Override
@@ -43,29 +44,29 @@ public class CarutorDemo {
 			}
 		}, pool);
 
-		childrenCache = new PathChildrenCache(client, "/testzk", true);
-		childrenCache.start(StartMode.POST_INITIALIZED_EVENT);
-		childrenCache.getListenable().addListener(new PathChildrenCacheListener() {
-			@Override
-			public void childEvent(CuratorFramework client, PathChildrenCacheEvent event) throws Exception {
-				switch (event.getType()) {
-				case CHILD_ADDED:
-					System.out.println("CHILD_ADDED: " + event.getData().getPath());
-					break;
-				case CHILD_REMOVED:
-					System.out.println("CHILD_REMOVED: " + event.getData().getPath());
-					break;
-				case CHILD_UPDATED:
-					System.out.println("CHILD_UPDATED: " + event.getData().getPath());
-					break;
-				default:
-					break;
-				}
-			}
-		}, pool);
+//		childrenCache = new PathChildrenCache(client, "/testzk", true);
+//		childrenCache.start(StartMode.POST_INITIALIZED_EVENT);
+//		childrenCache.getListenable().addListener(new PathChildrenCacheListener() {
+//			@Override
+//			public void childEvent(CuratorFramework client, PathChildrenCacheEvent event) throws Exception {
+//				switch (event.getType()) {
+//				case CHILD_ADDED:
+//					System.out.println("CHILD_ADDED: " + event.getData().getPath());
+//					break;
+//				case CHILD_REMOVED:
+//					System.out.println("CHILD_REMOVED: " + event.getData().getPath());
+//					break;
+//				case CHILD_UPDATED:
+//					System.out.println("CHILD_UPDATED: " + event.getData().getPath());
+//					break;
+//				default:
+//					break;
+//				}
+//			}
+//		}, pool);
 
-		client.create().creatingParentsIfNeeded().forPath("/testzk/zk", "hello".getBytes());
-		client.setData().forPath("/testzk/zk", "world".getBytes());
+		client.create().creatingParentsIfNeeded().forPath(PATH, "hello".getBytes());
+		//client.setData().forPath("/testzk/zk", "world".getBytes());
 
 		Thread.sleep(10 * 1000);
 		pool.shutdown();

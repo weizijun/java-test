@@ -18,7 +18,7 @@
  */
 package curatorexamples.discovery;
 
-import com.fasterxml.jackson.annotation.JsonRootName;
+import org.codehaus.jackson.map.annotate.JsonRootName;
 
 /**
  * In a real application, the Service payload will most likely be more detailed
